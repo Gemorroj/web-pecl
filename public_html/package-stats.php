@@ -55,8 +55,8 @@ if ($package_id) {
 	                  p.category = %s GROUP BY ps.pid ORDER BY download_count DESC",
                      $category_id
                      );
-    $category_stats = $dbh->getAll($query, NULL, DB_FETCHMODE_ASSOC);
-    $stat_mode = 'category';
+	$category_stats = $dbh->getAll($query, NULL, DB_FETCHMODE_ASSOC);
+	$stat_mode = 'category';
 /*
  * Global stats
  */
@@ -67,14 +67,14 @@ if ($package_id) {
 	$total_releases    = number_format($dbh->getOne('SELECT COUNT(*) FROM releases r, packages p
 	                   WHERE r.package = p.id AND p.package_type="pecl"'), 0, '.', ',');
 	$total_categories  = number_format($dbh->getOne('SELECT COUNT(*) FROM categories'), 0, '.', ',');
-    $total_downloads   = number_format($dbh->getOne('SELECT SUM(dl_number) FROM package_stats, packages p
+	$total_downloads   = number_format($dbh->getOne('SELECT SUM(dl_number) FROM package_stats, packages p
                        WHERE package_stats.pid = p.id AND p.package_type="pecl"'), 0, '.', ',');
 	$query             = "SELECT sum(ps.dl_number) as download_count, ps.package as name, ps.pid as package_id
 	                      FROM package_stats ps, packages p
 	                      WHERE p.id = ps.pid AND p.package_type = 'pecl'
 	                      GROUP BY ps.pid ORDER BY download_count DESC";
-    $category_stats = $dbh->getAll($query, NULL, DB_FETCHMODE_ASSOC);
-    $stat_mode = 'category';
+	$category_stats = $dbh->getAll($query, NULL, DB_FETCHMODE_ASSOC);
+	$stat_mode = 'category';
 }
 
 /**

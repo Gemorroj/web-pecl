@@ -157,7 +157,7 @@ if ($stat_mode == 'category') {
     foreach ($release_statistic as $stat){
 ?>
     <tr>
-        <td><a href="/package/<?php echo $package_name; ?>/download/<?php echo $stat['release']; ?>"><?php echo $stat['release']; ?></a></td>
+        <td><a href="/package/<?php echo $package_name; ?>/<?php echo $stat['release']; ?>"><?php echo $stat['release']; ?></a></td>
         <td><?php echo number_format($stat['dl_number'], 0, '.', ','); ?></td>
         <td><?php echo make_utc_date(strtotime($stat['releasedate']), 'Y-m-d'); ?></td>
         <td><?php echo make_utc_date(strtotime($stat['releasedate'])); ?></td>
