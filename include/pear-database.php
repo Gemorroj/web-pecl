@@ -565,7 +565,7 @@ class release
                                   $auth_user->handle, $relnotes));
         // Update files table
         $query = "INSERT INTO files ".
-             "(id,package,release,md5sum,basename,fullpath,packagexml) ".
+             "(`id`,`package`,`release`,`md5sum`,`basename`,`fullpath`,`packagexml`) ".
              "VALUES(?,?,?,?,?,?,?)";
         $sth = $dbh->prepare($query);
         $file_id = $dbh->nextId("files");
@@ -584,7 +584,7 @@ class release
 
         // Update dependency table
         $query = "INSERT INTO deps " .
-            "(package, release, type, relation, version, name, optional) " .
+            "(`package`, `release`, `type`, `relation`, `version`, `name`, `optional`) " .
             "VALUES (?,?,?,?,?,?,?)";
         $sth = $dbh->prepare($query);
 
@@ -678,7 +678,7 @@ class release
 
                 if (PEAR::isError($res)) {
                     $dbh->query('DELETE FROM deps WHERE ' .
-                                "release = $release_id");
+                                "`release` = $release_id");
                     $dbh->query('DELETE FROM releases WHERE ' .
                                 "id = $release_id");
                     @unlink($file);
@@ -749,7 +749,7 @@ class release
                 $file = substr($file, 0, -4) . '.tgz';
                 $uncompress = true;
             }
-            $row = $dbh->getRow("SELECT fullpath, release, id FROM files ".
+            $row = $dbh->getRow("SELECT `fullpath`, `release`, `id` FROM files ".
                                 "WHERE UPPER(basename) = ?", array(strtoupper($file)),
                                 DB_FETCHMODE_ASSOC);
             if (PEAR::isError($row)) {
@@ -947,7 +947,7 @@ class release
             }
 
             $query = 'INSERT INTO package_stats'
-                   . ' (dl_number, package, release, pid, rid, cid, last_dl)'
+                   . ' (`dl_number`, `package`, `release`, `pid`, `rid`, `cid`, `last_dl`)'
                    . ' VALUES (1, ?, ?, ?, ?, ?, ?)';
 
             $dbh->query($query, array($pkg_info['name'],
@@ -1092,7 +1092,7 @@ Authors
         $success = true;
 
         // get files that have to be removed
-        $query = sprintf("SELECT fullpath FROM files WHERE package = '%s' AND release = '%s'",
+        $query = sprintf("SELECT `fullpath` FROM `files` WHERE `package` = '%s' AND `release` = '%s'",
                          $package,
                          $release);
 
@@ -1104,7 +1104,7 @@ Authors
             }
         }
 
-        $query = sprintf("DELETE FROM files WHERE package = '%s' AND release = '%s'",
+        $query = sprintf("DELETE FROM `files` WHERE `package` = '%s' AND `release` = '%s'",
                          $package,
                          $release
                          );
