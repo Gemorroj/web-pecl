@@ -90,8 +90,8 @@ if (!empty($_GET)) {
     /**
      * Any release date checking?
      */
+    $release_join        = '';
     if (!empty($search_date)) {
-        $release_join        = '';
         $release_join = ', releases r';
         $where[] = "p.id = r.package";
         switch ($search_date_type) {
