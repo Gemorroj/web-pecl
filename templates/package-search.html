@@ -82,7 +82,7 @@ response_header('Package Search');
             <option value=""></option>
             <?php foreach($category_rows as $c):?>
             <option value="<?php echo $c['id']; ?>"
-            <?php echo $c['selected']; ?>><?php echo $c['name']; ?></option>
+            <?php echo (!empty($c['selected'])?$c['selected']:''); ?>><?php echo $c['name']; ?></option>
             <?php endforeach?>
         </select>
 
