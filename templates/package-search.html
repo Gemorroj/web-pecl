@@ -65,7 +65,7 @@ response_header('Package Search');
 
 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'],ENT_QUOTES); ?>" method="get" name="search_form">
     <fieldset>
-        <label>Name/sumamry contain:</label>
+        <label>Name/summary contain:</label>
         <?php $form->displayText('keywords', $search_name_contains, 0, 0, 'accesskey="c"'); ?>
 
         <label>Maintainer</label>
