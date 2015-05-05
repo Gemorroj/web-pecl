@@ -50,6 +50,9 @@ do {
         if ($file->isValid()) {
             $file->setName('uniq', 'pear-');
             $file->setValidExtensions('tgz', 'accept');
+            if (!file_exists(PEAR_UPLOAD_TMPDIR)) {
+                mkdir(PEAR_UPLOAD_TMPDIR, 0777, true);
+            }
             $tmpfile = $file->moveTo(PEAR_UPLOAD_TMPDIR);
             if (PEAR::isError($tmpfile)) {
                 $errors[] = $tmpfile->getMessage();
@@ -155,12 +158,12 @@ do {
         }
 
         include_once 'PEAR/Common.php';
-        $util =& new PEAR_Common;
+        $util = new PEAR_Common;
         $info = $util->infoFromTgzFile($distfile);
         if (class_exists('PEAR_PackageFile')) {
             $config = &PEAR_Config::singleton();
-            $pkg = &new PEAR_PackageFile($config);
-            $info = &$pkg->fromTgzFile($distfile, PEAR_VALIDATE_NORMAL);
+            $pkg = new PEAR_PackageFile($config);
+            $info = $pkg->fromTgzFile($distfile, PEAR_VALIDATE_NORMAL);
             if (PEAR::isError($info)) {
                 if (is_array($info->getUserInfo())) {
                     foreach ($info->getUserInfo() as $err) {
@@ -330,7 +333,7 @@ Uploading new releases is restricted to each package's lead developer(s).
 </p>
 MSG;
 
-    $form =& new HTML_Form($script_name, 'post', '', '',
+    $form = new HTML_Form($script_name, 'post', '', '',
             'multipart/form-data');
     $form->addFile('distfile',
             '<label for="f" accesskey="i">D<span class="accesskey">i</span>'
@@ -349,8 +352,8 @@ if ($display_verification) {
     response_header('Upload New Release :: Verify');
 
     $config = &PEAR_Config::singleton();
-    $pkg = &new PEAR_PackageFile($config);
-    $info = &$pkg->fromTgzFile(PEAR_UPLOAD_TMPDIR . '/' . $tmpfile, PEAR_VALIDATE_NORMAL);
+    $pkg = new PEAR_PackageFile($config);
+    $info = $pkg->fromTgzFile(PEAR_UPLOAD_TMPDIR . '/' . $tmpfile, PEAR_VALIDATE_NORMAL);
     $errors = $warnings = array();
     if (PEAR::isError($info)) {
         if (is_array($info->getUserInfo())) {
@@ -424,7 +427,7 @@ if ($display_verification) {
                  . 'You must correct your package.xml file:');
     report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
                  . 'You may want to correct your package.xml file:');
-    $form =& new HTML_Form($script_name, 'post');
+    $form = new HTML_Form($script_name, 'post');
     $form->addPlaintext('Package:', $info->getPackage());
     $form->addPlaintext('Version:', $info->getVersion());
     $form->addPlaintext('Summary:', htmlspecialchars($info->getSummary(), ENT_QUOTES));
